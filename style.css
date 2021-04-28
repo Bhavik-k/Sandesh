@@ -82,7 +82,7 @@ html{
 }
 .top h1{
 /*     transform: translateY(-30px); */
-    font-size: 3rem;
+    font-size: 30%;
     color: rgb(59, 103, 177);
     font-family: 'Bungee Shade', cursive;
     /* float: left; */
