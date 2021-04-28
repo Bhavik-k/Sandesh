@@ -1,0 +1,85 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+    <!-- <script defer src="./js/client.js"></script>
+    <script defer src="http://localhost:8000/socket.io/socket.io.js"></script> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body >
+    <form action="#" class="top">
+        <img src="logo.png" height="60px" alt="">
+        <h1>Sandesh</h1>
+    </form>
+    <div class="contaner">
+    </div>
+    <div class="send" id="send">
+        <Input id="MessIn" type="text" name="MessIn" autocomplete="false"></Input>
+        <button class="btn" onclick="sendInput()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+
+
+    
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.27.4.min.js"></script>
+    <script>
+
+        
+        const name = prompt("Enter your name to join");
+
+        const messageCont = document.querySelector('.contaner');
+        
+
+
+        const pubnub = new PubNub({
+            publishKey: "pub-c-7ac2faf2-a86a-4aae-aaa5-e58eb69cf8b5",
+            subscribeKey: "sub-c-51de28ee-a724-11eb-96f4-7e87b170c68c"
+        });
+
+
+        function sendmessage(nam,txt) {
+            pubnub.publish({
+                channel:"msg",
+                message:{
+                    text:txt,
+                    nam:nam
+                }
+            })
+        }
+        sendmessage("**"+name,"Joined The Chat**");
+
+
+        pubnub.addListener({
+            message:function(m) {
+                console.log(m.message.text);
+                const messEle = document.createElement('div');
+                messEle.innerHTML = m.message.nam +": <br>"+ m.message.text;
+                messEle.classList.add('Message');
+                messEle.classList.add('R');
+                messageCont.append(messEle);
+            }
+        });
+        pubnub.subscribe({
+            channels:["msg"]
+        })
+        function sendInput() {
+            sendmessage(name, document.getElementById('MessIn').value);
+            document.getElementById('MessIn').value = "";
+
+        }
+
+        object.onunload = function(){
+            sendmessage("**"+name,"Left The Chat**");
+        }
+
+    </script>
+
+
+
+</body>
+</html>
