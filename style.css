@@ -81,7 +81,7 @@ html{
     float: left;
 }
 .top h1{
-    transform: translateY(-30px);
+/*     transform: translateY(-30px); */
     font-size: 3rem;
     color: rgb(59, 103, 177);
     font-family: 'Bungee Shade', cursive;
